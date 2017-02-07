@@ -60,7 +60,7 @@ public class StatusBar extends CordovaPlugin {
                 if(preferences.getString("StatusBarOverlaysWebView", "false").equals("true") && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
                     //Status bar color, set to whatever opacity/color you want
-                    window.setStatusBarColor(Color.TRANSPARENT); 
+                    setStatusBarTranslucent(true);
                 } else {
                     window.clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
                     // Read 'StatusBarBackgroundColor' from config.xml, default is #000000.
@@ -68,8 +68,19 @@ public class StatusBar extends CordovaPlugin {
                 }
             }
         });
+    }    
+    /**
+     * Changes the statusbar color to the FLAG_TRANSLUCENT_STATUS.
+     * @param makeTranslucent if true it will set the FLAG_TRANSLUCENT_STATUS
+     * @return void
+     */
+    private void setStatusBarTranslucent(boolean makeTranslucent) {
+        if (makeTranslucent) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        } else {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
     }
-
     /**
      * Executes the request and returns PluginResult.
      *
