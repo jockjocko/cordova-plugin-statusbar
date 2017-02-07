@@ -76,9 +76,9 @@ public class StatusBar extends CordovaPlugin {
      */
     public void setStatusBarTranslucent(boolean makeTranslucent) {
         if (makeTranslucent) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            getWindow().addFlags(0x04000000);
         } else {
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            getWindow().clearFlags(0x04000000);
         }
     }
     /**
