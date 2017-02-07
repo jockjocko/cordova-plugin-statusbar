@@ -61,12 +61,6 @@ public class StatusBar extends CordovaPlugin {
                         && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
                     window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-                    // Retrieve the AppCompact Toolbar
-                    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-                    setSupportActionBar(toolbar);
-
-                    // Set the padding to match the Status Bar height
-                    toolbar.setPadding(0, getStatusBarHeight(), 0, 0);
                     //Status bar color, set to whatever opacity/color you want
                     setStatusBarTranslucent(true);
                 } else {
@@ -91,17 +85,6 @@ public class StatusBar extends CordovaPlugin {
             window.clearFlags(0x04000000);
         }
     }
-
-    // A method to find height of the status bar
-    private int getStatusBarHeight() {
-        int result = 0;
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            result = getResources().getDimensionPixelSize(resourceId);
-        }
-        return result;
-    }
-
     /**
      * Executes the request and returns PluginResult.
      *
