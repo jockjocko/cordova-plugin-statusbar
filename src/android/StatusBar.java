@@ -56,9 +56,8 @@ public class StatusBar extends CordovaPlugin {
                 // Clear flag FLAG_FORCE_NOT_FULLSCREEN which is set initially
                 // by the Cordova.
                 Window window = cordova.getActivity().getWindow();
-                String overlay = preferences.getString("StatusBarOverlaysWebView");
 
-                if(overlay == "true" && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                if(preferences.getString("StatusBarOverlaysWebView").equals("true") && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
                     //Status bar color, set to whatever opacity/color you want
                     window.setStatusBarColor(Color.TRANSPARENT); 
