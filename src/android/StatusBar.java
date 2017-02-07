@@ -57,8 +57,10 @@ public class StatusBar extends CordovaPlugin {
                 // by the Cordova.
                 Window window = cordova.getActivity().getWindow();
 
-                if(preferences.getString("StatusBarOverlaysWebView", "false").equals("true") && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+                if (preferences.getString("StatusBarOverlaysWebView", "false").equals("true")
+                        && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    window.getDecorView().setSystemUiVisibility(
+                            View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
                     //Status bar color, set to whatever opacity/color you want
                     setStatusBarTranslucent(true);
                 } else {
@@ -68,19 +70,23 @@ public class StatusBar extends CordovaPlugin {
                 }
             }
         });
-    }    
+    }
+
     /**
      * Changes the statusbar color to the FLAG_TRANSLUCENT_STATUS.
      * @param makeTranslucent if true it will set the FLAG_TRANSLUCENT_STATUS
      * @return void
      */
     public void setStatusBarTranslucent(boolean makeTranslucent) {
+        Window window = cordova.getActivity().getWindow();
+
         if (makeTranslucent) {
-            getWindow().addFlags(0x04000000);
+            window.addFlags(0x04000000);
         } else {
-            getWindow().clearFlags(0x04000000);
+            window.clearFlags(0x04000000);
         }
     }
+
     /**
      * Executes the request and returns PluginResult.
      *
@@ -90,7 +96,8 @@ public class StatusBar extends CordovaPlugin {
      * @return                  True if the action was valid, false otherwise.
      */
     @Override
-    public boolean execute(final String action, final CordovaArgs args, final CallbackContext callbackContext) throws JSONException {
+    public boolean execute(final String action, final CordovaArgs args, final CallbackContext callbackContext)
+            throws JSONException {
         LOG.v(TAG, "Executing action: " + action);
         final Activity activity = this.cordova.getActivity();
         final Window window = activity.getWindow();
@@ -131,8 +138,7 @@ public class StatusBar extends CordovaPlugin {
                     // use KitKat here to be aligned with "Fullscreen"  preference
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                         int uiOptions = window.getDecorView().getSystemUiVisibility()
-                                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                                | View.SYSTEM_UI_FLAG_FULLSCREEN;
+                                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_FULLSCREEN;
 
                         window.getDecorView().setSystemUiVisibility(uiOptions);
                     }
@@ -171,7 +177,8 @@ public class StatusBar extends CordovaPlugin {
                 window.addFlags(0x80000000); // SDK 21: WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
                 try {
                     // Using reflection makes sure any 5.0+ device will work without having to compile with SDK level 21
-                    window.getClass().getDeclaredMethod("setStatusBarColor", int.class).invoke(window, Color.parseColor(colorPref));
+                    window.getClass().getDeclaredMethod("setStatusBarColor", int.class).invoke(window,
+                            Color.parseColor(colorPref));
                 } catch (IllegalArgumentException ignore) {
                     LOG.e(TAG, "Invalid hexString argument, use f.i. '#999999'");
                 } catch (Exception ignore) {
